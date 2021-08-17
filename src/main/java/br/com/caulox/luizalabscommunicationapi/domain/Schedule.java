@@ -2,7 +2,9 @@ package br.com.caulox.luizalabscommunicationapi.domain;
 
 import br.com.caulox.luizalabscommunicationapi.domain.enums.Status;
 import br.com.caulox.luizalabscommunicationapi.domain.enums.Type;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 public class Schedule {
 
@@ -21,14 +24,20 @@ public class Schedule {
 
     private String requester;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private LocalDateTime shippingDateTime;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDateTime sendDateTime;
 
     @Enumerated(EnumType.STRING)
     private Type type;
 
+    private String receiver;
     private String message;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDateTime createdAt;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
     private Status status;
