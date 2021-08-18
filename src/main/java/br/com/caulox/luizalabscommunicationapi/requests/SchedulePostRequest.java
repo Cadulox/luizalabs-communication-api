@@ -16,12 +16,14 @@ public class SchedulePostRequest {
     private String requester;
 
     @Pattern(regexp = "^(0[1-9]|([012][0-9])|(3[01]))/([0]?[1-9]|1[012])/\\d\\d\\d\\d [012]?[0-9]:[0-6][0-9]$",
-            message = "Formato Inválido! A data e hora devem ser no formato: 02/02/2000 12:00")
+            message = "Formato inválido para data e hora!")
     private String sendDateTime;
 
+    @Size(min = 2, message = "O tipo de mensagem precisa ter pelo menos 2 caracteres")
     @NotEmpty(message = "O tipo de mensagem não pode ser vazio")
     private String type;
 
+    @Size(min = 11, message = "Formato inválido!")
     @NotEmpty(message = "O destinatário não pode ser vazio")
     private String receiver;
 

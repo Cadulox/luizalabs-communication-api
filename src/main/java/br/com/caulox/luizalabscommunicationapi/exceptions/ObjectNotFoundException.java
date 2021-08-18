@@ -1,4 +1,4 @@
-package br.com.caulox.luizalabscommunicationapi.exception;
+package br.com.caulox.luizalabscommunicationapi.exceptions;
 
 public class ObjectNotFoundException extends RuntimeException {
 
