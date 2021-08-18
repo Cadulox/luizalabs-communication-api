@@ -5,6 +5,7 @@ import br.com.caulox.luizalabscommunicationapi.domain.enums.Status;
 import br.com.caulox.luizalabscommunicationapi.domain.enums.Type;
 import br.com.caulox.luizalabscommunicationapi.exceptions.ObjectNotFoundException;
 import br.com.caulox.luizalabscommunicationapi.repository.ScheduleRepository;
+import br.com.caulox.luizalabscommunicationapi.requests.SchedulePatchRequest;
 import br.com.caulox.luizalabscommunicationapi.requests.SchedulePostRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,10 +34,8 @@ public class ScheduleService {
             throw new IllegalArgumentException("A data e hora não pode ser anterior a atual!");
         }
 
-        if (!containsEnum(schedulePostRequest.getType().toUpperCase())) {
-            throw new IllegalArgumentException("Tipo inválido de mensagem! Tipos permitidos: "
-                    + Arrays.asList(Type.values()));
-        }
+        checkValidEnum(Type.class, schedulePostRequest.getType().toUpperCase(),
+                "Tipo inválido de mensagem! Tipos permitidos: " + Arrays.asList(Type.values()));
 
         Type typeMessage = Type.valueOf(schedulePostRequest.getType().toUpperCase());
 
@@ -67,13 +66,22 @@ public class ScheduleService {
                 .orElseThrow(() -> new ObjectNotFoundException("Agendamento não encontrado! Id: " + id));
     }
 
-    private boolean containsEnum(String str) {
-        for (Type t : Type.values()) {
-            if (t.name().equals(str)) {
-                return true;
-            }
+    public void updateStatus(Long id, SchedulePatchRequest schedulePatchRequest) {
+        checkValidEnum(Status.class, schedulePatchRequest.getStatus().toUpperCase(),
+                "Status inválido! Tipos permitidos: " + Arrays.asList(Status.values()));
+
+        Schedule schedule = findByIdOrThrowBadRequestException(id);
+        schedule.setStatus(Status.valueOf(schedulePatchRequest.getStatus().toUpperCase()));
+        schedule.setUpdatedAt(LocalDateTime.now());
+        scheduleRepository.save(schedule);
+    }
+
+    private <T extends Enum<T>> void checkValidEnum(Class<T> enumType, String value, String msg) {
+        try {
+            Enum.valueOf(enumType, value);
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(msg);
         }
-        return false;
     }
 
     private void isValidEmailAddress(String email) {
