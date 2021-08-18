@@ -6,10 +6,7 @@ import br.com.caulox.luizalabscommunicationapi.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,5 +20,10 @@ public class ScheduleController {
     @PostMapping
     public ResponseEntity<Schedule> save(@RequestBody @Valid SchedulePostRequest schedulePostRequest) {
         return new ResponseEntity<>(scheduleService.save(schedulePostRequest), HttpStatus.CREATED);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Schedule> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(scheduleService.findByIdOrThrowBadRequestException(id));
     }
 }

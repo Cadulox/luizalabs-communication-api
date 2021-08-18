@@ -3,6 +3,7 @@ package br.com.caulox.luizalabscommunicationapi.service;
 import br.com.caulox.luizalabscommunicationapi.domain.Schedule;
 import br.com.caulox.luizalabscommunicationapi.domain.enums.Status;
 import br.com.caulox.luizalabscommunicationapi.domain.enums.Type;
+import br.com.caulox.luizalabscommunicationapi.exception.ObjectNotFoundException;
 import br.com.caulox.luizalabscommunicationapi.repository.ScheduleRepository;
 import br.com.caulox.luizalabscommunicationapi.requests.SchedulePostRequest;
 import lombok.RequiredArgsConstructor;
@@ -40,4 +41,9 @@ public class ScheduleService {
         return scheduleRepository.save(schedule);
     }
 
+    public Schedule findByIdOrThrowBadRequestException(Long id) {
+        return scheduleRepository
+                .findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Agendamento não encontrado! Id: " + id));
+    }
 }
