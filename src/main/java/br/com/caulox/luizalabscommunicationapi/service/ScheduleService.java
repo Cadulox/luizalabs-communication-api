@@ -15,6 +15,8 @@ import javax.mail.internet.InternetAddress;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +42,8 @@ public class ScheduleService {
 
         if (typeMessage.equals(Type.EMAIL)) {
             isValidEmailAddress(schedulePostRequest.getReceiver());
+        } else {
+            isValidCellphoneNumber(schedulePostRequest.getReceiver());
         }
 
         Schedule schedule = Schedule
@@ -74,10 +78,22 @@ public class ScheduleService {
 
     private void isValidEmailAddress(String email) {
         try {
-            InternetAddress emailAddr = new InternetAddress(email);
-            emailAddr.validate();
+            InternetAddress emailAddress = new InternetAddress(email);
+            emailAddress.validate();
         } catch (AddressException ex) {
-            throw new IllegalArgumentException("E-mail inválido!");
+            throw new IllegalArgumentException(
+                    "E-mail de destinatário inválido! Verifique os dados informados e se o tipo de mensagem está correto");
+        }
+    }
+
+    private void isValidCellphoneNumber(String phone) {
+        String expression =
+                "^\\(?(?:[14689][1-9]|2[12478]|3[1234578]|5[1345]|7[134579])\\)? ?(?:[2-8]|9[1-9])[0-9]{3}-?[0-9]{4}$";
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(phone);
+        if (!matcher.matches()) {
+            throw new IllegalArgumentException("Telefone celular inválido! " +
+                    "Formatos válidos: 11911112222, 11 91111-2222, (11)911112222, (11) 91111-2222");
         }
     }
 }
