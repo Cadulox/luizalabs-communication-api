@@ -20,18 +20,18 @@ public class ScheduleController {
 
     @PostMapping
     public ResponseEntity<Schedule> save(@RequestBody @Valid SchedulePostRequest schedulePostRequest) {
-        return new ResponseEntity<>(scheduleService.save(schedulePostRequest), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.scheduleService.save(schedulePostRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Schedule> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(scheduleService.findByIdOrThrowBadRequestException(id));
+        return ResponseEntity.ok(this.scheduleService.findByIdOrThrowObjectNotFoundException(id));
     }
 
     @PatchMapping("{id}")
     public ResponseEntity<Void> updateStatus(@PathVariable Long id,
-                                             @RequestBody @Valid SchedulePatchRequest schedulePatchRequest) {
-        scheduleService.updateStatus(id, schedulePatchRequest);
+                                             @RequestBody SchedulePatchRequest schedulePatchRequest) {
+        this.scheduleService.updateStatus(id, schedulePatchRequest);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

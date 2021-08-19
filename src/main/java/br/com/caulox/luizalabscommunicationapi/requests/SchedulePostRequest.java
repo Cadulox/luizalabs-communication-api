@@ -1,6 +1,7 @@
 package br.com.caulox.luizalabscommunicationapi.requests;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class SchedulePostRequest {
 
     @Size(min = 2, message = "O requisitante precisa ter pelo menos 2 caracteres")
@@ -29,5 +31,6 @@ public class SchedulePostRequest {
     private String receiver;
 
     @Size(min = 1, message = "A mensagem precisa ter pelo menos 1 caractere")
+    @NotEmpty(message = "O campo messagem não pode estar vazio")
     private String message;
 }

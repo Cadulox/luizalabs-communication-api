@@ -15,6 +15,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,16 +53,16 @@ public class ScheduleService {
                 .type(typeMessage)
                 .receiver(schedulePostRequest.getReceiver())
                 .message(schedulePostRequest.getMessage())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES))
+                .updatedAt(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES))
                 .status(Status.PENDING)
                 .build();
 
-        return scheduleRepository.save(schedule);
+        return this.scheduleRepository.save(schedule);
     }
 
-    public Schedule findByIdOrThrowBadRequestException(Long id) {
-        return scheduleRepository
+    public Schedule findByIdOrThrowObjectNotFoundException(Long id) {
+        return this.scheduleRepository
                 .findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Agendamento não encontrado! Id: " + id));
     }
@@ -70,10 +71,10 @@ public class ScheduleService {
         checkValidEnum(Status.class, schedulePatchRequest.getStatus().toUpperCase(),
                 "Status inválido! Tipos permitidos: " + Arrays.asList(Status.values()));
 
-        Schedule schedule = findByIdOrThrowBadRequestException(id);
+        Schedule schedule = findByIdOrThrowObjectNotFoundException(id);
         schedule.setStatus(Status.valueOf(schedulePatchRequest.getStatus().toUpperCase()));
-        schedule.setUpdatedAt(LocalDateTime.now());
-        scheduleRepository.save(schedule);
+        schedule.setUpdatedAt(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
+        this.scheduleRepository.save(schedule);
     }
 
     private <T extends Enum<T>> void checkValidEnum(Class<T> enumType, String value, String msg) {
