@@ -3,6 +3,7 @@ package br.com.caulox.luizalabscommunicationapi.service;
 import br.com.caulox.luizalabscommunicationapi.domain.Schedule;
 import br.com.caulox.luizalabscommunicationapi.exceptions.ObjectNotFoundException;
 import br.com.caulox.luizalabscommunicationapi.repository.ScheduleRepository;
+import br.com.caulox.luizalabscommunicationapi.requests.SchedulePatchRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -75,4 +76,15 @@ class ScheduleServiceTest {
                 .doesNotThrowAnyException();
     }
 
+    @Test
+    @DisplayName("updateStatus thorws ObjectNotFoundException when schedule is not found")
+    void updateStatus_ThrowsObjectNotFoundException_WhenScheduleIsNotFoun() {
+        BDDMockito.when(scheduleRepositoryMock.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.empty());
+
+        SchedulePatchRequest schedulePatchRequest = createSchedulePatchRequest();
+
+        Assertions.assertThatExceptionOfType(ObjectNotFoundException.class)
+                .isThrownBy(() -> scheduleService.updateStatus(1L, schedulePatchRequest));
+    }
 }

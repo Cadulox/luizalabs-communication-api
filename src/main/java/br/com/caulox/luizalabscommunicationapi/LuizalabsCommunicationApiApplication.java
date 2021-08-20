@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class LuizalabsCommunicationApiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LuizalabsCommunicationApiApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(LuizalabsCommunicationApiApplication.class, args);
+    }
 }
