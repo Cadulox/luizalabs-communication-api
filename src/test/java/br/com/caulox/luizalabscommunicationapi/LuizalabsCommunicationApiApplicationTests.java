@@ -3,10 +3,10 @@ package br.com.caulox.luizalabscommunicationapi;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class LuizalabsCommunicationApiApplicationTests {
 
-	@Test
+//	@Test
 	void contextLoads() {
 	}
 
