@@ -13,8 +13,14 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>luizalabs-communication-api</name>
     <description>API de agendamento de mensagens do desafio Luizalabs.</description>
+
     <properties>
         <java.version>11</java.version>
+        <jib-maven-plugin.version>3.1.4</jib-maven-plugin.version>
+        <docker.distrolles.image>adoptopenjdk:11-jre</docker.distrolles.image>
+        <docker.repo.url>cadulox</docker.repo.url>
+        <docker.repo.project>luizalabs-communication-api</docker.repo.project>
+        <docker.image.name>${docker.repo.url}/${docker.repo.project}</docker.image.name>
     </properties>
     <dependencies>
         <dependency>
@@ -77,6 +83,27 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib-maven-plugin.version}</version>
+                <configuration>
+                    <from>
+                        <image>${docker.distrolles.image}</image>
+                    </from>
+                    <to>
+                        <image>${docker.image.name}</image>
+                        <tags>
+                            <tag>${project.version}</tag>
+                        </tags>
+                    </to>
+                    <container>
+                        <mainClass>
+                            br.com.caulox.luizalabscommunicationapi.LuizalabsCommunicationApiApplication
+                        </mainClass>
+                    </container>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
