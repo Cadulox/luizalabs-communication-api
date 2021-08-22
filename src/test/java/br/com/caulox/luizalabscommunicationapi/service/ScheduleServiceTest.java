@@ -4,6 +4,7 @@ import br.com.caulox.luizalabscommunicationapi.domain.Schedule;
 import br.com.caulox.luizalabscommunicationapi.exceptions.ObjectNotFoundException;
 import br.com.caulox.luizalabscommunicationapi.repository.ScheduleRepository;
 import br.com.caulox.luizalabscommunicationapi.requests.SchedulePatchRequest;
+import br.com.caulox.luizalabscommunicationapi.requests.SchedulePostRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -66,6 +67,46 @@ class ScheduleServiceTest {
         Schedule schedule = scheduleService.save(createSchedulePostRequest());
 
         Assertions.assertThat(schedule).isNotNull().isEqualTo(createValidSchedule());
+    }
+
+    @Test
+    @DisplayName("save throws IllegalArgumentException when sendDateTime is before")
+    void save_ThrowsIllegalArgumentException_WhenSendDateTimeBefore() {
+        SchedulePostRequest invalidSchedulePostRequest = createSchedulePostRequest();
+        invalidSchedulePostRequest.setSendDateTime("18/08/2021 21:00");
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> scheduleService.save(invalidSchedulePostRequest));
+    }
+
+    @Test
+    @DisplayName("save throws IllegalArgumentException when Type of message is wrong")
+    void save_ThrowsIllegalArgumentException_WhenTypeMessageWrong() {
+        SchedulePostRequest invalidSchedulePostRequest = createSchedulePostRequest();
+        invalidSchedulePostRequest.setType("LETTER");
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> scheduleService.save(invalidSchedulePostRequest));
+    }
+
+    @Test
+    @DisplayName("save throws IllegalArgumentException when Email is not valid")
+    void save_ThrowsIllegalArgumentException_WhenEmailNotValid() {
+        SchedulePostRequest invalidSchedulePostRequest = createSchedulePostRequest();
+        invalidSchedulePostRequest.setReceiver("ful@no@email.com.br");
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> scheduleService.save(invalidSchedulePostRequest));
+    }
+
+    @Test
+    @DisplayName("save throws IllegalArgumentException when Cellphone is not valid")
+    void save_ThrowsIllegalArgumentException_WhenCellphoneNotValid() {
+        SchedulePostRequest invalidSchedulePostRequest = createSchedulePostRequest();
+        invalidSchedulePostRequest.setType("SMS");
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> scheduleService.save(invalidSchedulePostRequest));
     }
 
     @Test
