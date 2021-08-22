@@ -16,7 +16,7 @@ services:
       - mysql-data:/var/lib/mysql
 
   luizalabs-communication-api:
-    image: cadulox/luizalabs-communication-api:0.0.1-SNAPSHOT
+    image: cadulox/luizalabs-communication-api
     ports:
       - "8080:8080"
     environment:

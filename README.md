@@ -7,9 +7,59 @@
 
 # Communication API
 
-API para agendamento de envio de mensagens.
+API desenvolvida com Spring Boot para agendamento de envio de mensagens e persistência dos dados em banco de dados MySQL.
+
+- Tipos de mensagens permitidas para agendamento:
+	- EMAIL
+	- SMS
+	- PUSH
+	- WHATSAPP
 
 ## Pré-requisitos
+- Java 11
+- MySQL 5.6
+- Docker (opcional)
+
+## Como rodar os testes
+- Via linha de comando, navegue até o diretório raiz da aplicação e execute o comando abaixo:
+```
+$ mvnw clean test
+```
+
+## Como rodar a aplicação :arrow_forward:
+- Faça o download do projeto ZIP e extraia os arquivos no diretório de sua preferência, ou se preferir clone o projeto com o comando `$ git clone https://github.com/Cadulox/luizalabs-communication-api.git`
+
+- Via linha de comando, navegue até o diretório raiz da aplicação e execute o comando abaixo para criar o jar do projeto:
+```
+$ mvnw clean package -DskipTests
+```
+- O arquivo é gerado no diretório target, vá para o diretório com o comando `$ cd target/` e execute o comando abaixo:
+```
+$ java -jar luizalabs-communication-api-0.0.1-SNAPSHOT.jar
+```
+:warning: É necessário ter o banco de dados MySQL instalado e rodando na porta padrão `3306`, caso contrário a aplicação falhará ao tentar iniciar.
+
+:warning: A aplicação roda na porta padrão `8080` do Spring Boot.
+
+### Como rodar a aplicação via Docker :whale:
+- Caso queira rodar toda aplicação via Docker, navegue através da linha de comando até o diretório raiz da aplicação e execute o comando abaixo:
+```
+$ docker-compose up
+```
+- Será feito o download da imagem da aplicação [Communication API](https://hub.docker.com/r/cadulox/luizalabs-communication-api), do banco de dados [MySQL 5.6](https://hub.docker.com/_/mysql), criado os contêineres e aplicação estará rodando perfeitamente.
+:warning: A aplicação é exposta na porta padrão 8080 do Spring Boot e o banco de dados na porta padrã `3306` do MySQL.
+
+## Recursos disponíveis da aplicação
+Recurso | Verbo HTTP | Path
+------- | ---------- | ----
+Agendar mensagem | POST | communication-api/schedules
+Consultar agendamento | GET | communication-api/schedules/{id}
+Cancelar agendamento | PATCH | communication-api/schedules/{id}
+
+- É possível verificar o comportamento dos recursos utilizando [Postman](https://www.postman.com/), [Insomnia](https://insomnia.rest/) ou através da documentação da API no link abaixo:
+
+[OpenAPI Doc](http://localhost:8080/swagger-ui.html) - `http://localhost:8080/swagger-ui.html`
+
 
 ## Tecnologias utilizadas :books:
 - [Java 11](https://www.oracle.com/br/java/technologies/javase-jdk11-downloads.html) - como linguagem
