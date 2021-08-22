@@ -15,10 +15,10 @@ API desenvolvida com Spring Boot para agendamento de envio de mensagens e persis
 	- PUSH
 	- WHATSAPP
 
-## Pré-requisitos
-- Java 11
-- MySQL 5.6
-- Docker (opcional)
+## Pré-requisitos :exclamation:
+- [Java 11](https://www.oracle.com/br/java/technologies/javase-jdk11-downloads.html)
+- [MySQL 5.6](https://www.mysql.com/)
+- [Docker](https://www.docker.com/) (opcional)
 
 ## Como rodar os testes
 - Via linha de comando, navegue até o diretório raiz da aplicação e execute o comando abaixo:
@@ -47,6 +47,7 @@ $ java -jar luizalabs-communication-api-0.0.1-SNAPSHOT.jar
 $ docker-compose up
 ```
 - Será feito o download da imagem da aplicação [Communication API](https://hub.docker.com/r/cadulox/luizalabs-communication-api), do banco de dados [MySQL 5.6](https://hub.docker.com/_/mysql), criado os contêineres e aplicação estará rodando perfeitamente.
+
 :warning: A aplicação é exposta na porta padrão 8080 do Spring Boot e o banco de dados na porta padrã `3306` do MySQL.
 
 ## Recursos disponíveis da aplicação
